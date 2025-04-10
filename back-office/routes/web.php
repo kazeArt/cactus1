@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\LinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,23 +16,39 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Welcome page route
+// 👋 Welcome page (public)
 Route::get('/', function () {
     return view('welcome', [
         'canLogin' => Route::has('login'),
-        'canRegister' => false, // Disable registration
+        'canRegister' => false, // Registration disabled
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
 });
 
-// Login page route
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-    ->name('login');
-
-
+// 🔐 Login routes
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+// 🏠 Authenticated dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+// 👑 Admin routes (only for is_admin = true)
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/links', [LinkController::class, 'index'])->name('admin.links.index');
+    Route::post('/links', [LinkController::class, 'store'])->name('admin.links.store');
+});
+
+// routes/web.php
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/links', [LinkController::class, 'index'])->name('admin.links.index');
+    Route::post('/links', [LinkController::class, 'store'])->name('admin.links.store');
+    Route::get('/links/{id}/edit', [LinkController::class, 'edit'])->name('admin.links.edit');
+    Route::put('/links/{id}', [LinkController::class, 'update'])->name('admin.links.update');
+    Route::delete('/links/{id}', [LinkController::class, 'destroy'])->name('admin.links.destroy');
+});
+
