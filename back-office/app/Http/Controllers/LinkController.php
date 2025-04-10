@@ -34,26 +34,20 @@ class LinkController extends Controller
     }
 
     // Show the form for editing an existing link
-    public function edit($id)
+    public function edit(Link $link)
     {
-        // Find the link by its ID
-        $link = Link::findOrFail($id);
-
         // Pass the link to the edit view
         return view('admin.links.edit', compact('link'));
     }
 
     // Update the link in the database
-    public function update(Request $request, $id)
+    public function update(Request $request, Link $link)
     {
         // Validate the incoming request
         $request->validate([
             'label' => 'required|string',
             'url' => 'required|url',
         ]);
-
-        // Find the link by its ID
-        $link = Link::findOrFail($id);
 
         // Update the link with the new data
         $link->update($request->only('label', 'url'));
@@ -63,11 +57,8 @@ class LinkController extends Controller
     }
 
     // Delete a link from the database
-    public function destroy($id)
+    public function destroy(Link $link)
     {
-        // Find the link by its ID
-        $link = Link::findOrFail($id);
-
         // Delete the link
         $link->delete();
 

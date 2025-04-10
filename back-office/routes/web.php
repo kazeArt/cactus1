@@ -6,14 +6,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\LinkController;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+|--------------------------------------------------------------------------|
+| Web Routes                                                                |
+|--------------------------------------------------------------------------|
+| Here is where you can register web routes for your application. These    |
+| routes are loaded by the RouteServiceProvider within a group which       |
+| contains the "web" middleware group. Now create something great!         |
+|--------------------------------------------------------------------------|
 */
 
 // 👋 Welcome page (public)
@@ -38,17 +37,10 @@ Route::get('/dashboard', function () {
 
 // 👑 Admin routes (only for is_admin = true)
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    // Links Management (CRUD)
     Route::get('/links', [LinkController::class, 'index'])->name('admin.links.index');
     Route::post('/links', [LinkController::class, 'store'])->name('admin.links.store');
+    Route::get('/links/{link}/edit', [LinkController::class, 'edit'])->name('admin.links.edit');
+    Route::put('/links/{link}', [LinkController::class, 'update'])->name('admin.links.update');
+    Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('admin.links.destroy');
 });
-
-// routes/web.php
-
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/links', [LinkController::class, 'index'])->name('admin.links.index');
-    Route::post('/links', [LinkController::class, 'store'])->name('admin.links.store');
-    Route::get('/links/{id}/edit', [LinkController::class, 'edit'])->name('admin.links.edit');
-    Route::put('/links/{id}', [LinkController::class, 'update'])->name('admin.links.update');
-    Route::delete('/links/{id}', [LinkController::class, 'destroy'])->name('admin.links.destroy');
-});
-

@@ -12,3 +12,4 @@ class Link extends Model
     // Specify which fields are mass assignable
     protected $fillable = ['label', 'url'];
 }
+
