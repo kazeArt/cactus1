@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\ImageUploadController;
+
 
 /*
 |--------------------------------------------------------------------------|
@@ -44,3 +46,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::put('/links/{link}', [LinkController::class, 'update'])->name('admin.links.update');
     Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('admin.links.destroy');
 });
+
+
+Route::post('/upload-image', [ImageUploadController::class, 'upload'])->name('upload.image');

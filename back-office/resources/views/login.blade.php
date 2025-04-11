@@ -7,14 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-2xl font-bold text-center text-gray-800">Login</h2>
-        <p class="text-sm text-center text-gray-600 mb-6">Welcome back! Please log in to your account.</p>
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+        <!-- Login Form Header -->
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Welcome Back!</h2>
+        <p class="mb-6">
+    <img src="{{ asset('Logo2.png') }}" alt="Mon image" class="mx-auto" width="100" height="100">
+</p>
 
+
+        </p>
+
+        <!-- Login Form -->
         <form method="POST" action="{{ route('login') }}" class="space-y-4">
             @csrf
+            <!-- Email Input -->
             <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
                 <input
                     type="email"
                     id="email"
@@ -28,6 +36,7 @@
                 @enderror
             </div>
 
+            <!-- Password Input -->
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <input
@@ -42,31 +51,12 @@
                     <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                 @enderror
             </div>
-
-            <div class="flex items-center justify-between">
-                <label class="flex items-center">
-                    <input
-                        type="checkbox"
-                        name="remember"
-                        class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                    />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-                <a href="#" class="text-sm text-indigo-600 hover:underline">Forgot password?</a>
-            </div>
-
+            <!-- Submit Button -->
             <button
                 type="submit"
-                class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-                Log in
+                class="w-full bg-red-800 text-white py-2 px-4 rounded-lg hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">                Log in
             </button>
         </form>
-
-        <p class="text-sm text-center text-gray-600 mt-6">
-            Don't have an account?
-            <a href="#" class="text-indigo-600 hover:underline">Sign up</a>
-        </p>
     </div>
 </body>
 </html>
