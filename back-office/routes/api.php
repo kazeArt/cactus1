@@ -3,14 +3,22 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LinkApiController;
+use App\Http\Controllers\API\TextMessageController;
+use App\Http\Controllers\API\UploadedImageController;
 
+// User route (returns authenticated user)
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user(); // Returns the authenticated user
+    return $request->user();
 });
 
-// This route is open to everyone (no authentication required)
-Route::get('/links', [LinkApiController::class, 'index']);
+// Links routes
+Route::get('/links', [LinkApiController::class, 'index']); // Fetch links
+Route::middleware('auth:sanctum')->post('/links', [LinkApiController::class, 'store']); // Create link
 
-// You can add other routes here as needed, such as creating or updating links, and they can be protected
-// For example, protecting the route to store a new link
-Route::middleware('auth:sanctum')->post('/links', [LinkApiController::class, 'store']);
+// Texts routes
+Route::get('/texts', [TextMessageController::class, 'index']); // Fetch texts
+Route::post('/text', [TextMessageController::class, 'store']); // Create text
+
+// Images routes
+Route::get('/images', [UploadedImageController::class, 'index']); // Fetch images
+Route::post('/upload-image', [UploadedImageController::class, 'store'])->name('upload.image'); // Upload image

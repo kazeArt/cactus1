@@ -48,7 +48,7 @@
                     </div>
                 </li>
             @empty
-                <li class="text-gray-500">No links yet, bestie. Add some! 💖</li>
+                <li class="text-gray-500">No links yet, bestie. Add some!</li>
             @endforelse
         </ul>
     </div>

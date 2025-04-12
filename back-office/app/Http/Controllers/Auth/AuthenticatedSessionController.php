@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\resources\views\admin\links\index;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,9 +33,8 @@ class AuthenticatedSessionController extends Controller
 
     $request->session()->regenerate();
 
-    return redirect()->intended(RouteServiceProvider::HOME);
-    
-}
+    // Redirect to the admin index page
+    return redirect()->intended(route('admin.links'));}
 
     /**
      * Destroy an authenticated session.
