@@ -20,7 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
 {
-    return view('login'); // 👈 loads login.blade.php from resources/views/
+    return view('login'); // loads login.blade.php from resources/views/
 }
 
 
@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
     $request->session()->regenerate();
 
     // Redirect to the admin index page
-    return redirect()->intended(route('admin.links'));}
+    return redirect()->intended(route('admin.links.index'));}
 
     /**
      * Destroy an authenticated session.

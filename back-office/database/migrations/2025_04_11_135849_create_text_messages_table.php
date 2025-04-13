@@ -9,14 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up() {
-        Schema::create('text_messages', function (Blueprint $table) {
-            $table->id();
-            $table->string('title')->nullable();  // Optional title
-            $table->text('content');  // Content of the text
-            $table->timestamps();  // Tracks created_at and updated_at
-        });
-    }    
+    public function up()
+{
+    Schema::table('text_messages', function (Blueprint $table) {
+        $table->string('type')->default('p');
+    });
+}
+
 
     /**
      * Reverse the migrations.

@@ -16,23 +16,6 @@ class LinkController extends Controller
         // Pass links to the view
         return view('admin.links.index', compact('links'));
     }
-
-    // Store a new link in the database
-    public function store(Request $request)
-    {
-        // Validate the incoming request
-        $request->validate([
-            'label' => 'required|string',
-            'url' => 'required|url',
-        ]);
-
-        // Create a new link in the database
-        Link::create($request->only('label', 'url'));
-
-        // Redirect back with a success message
-        return redirect()->route('admin.links.index')->with('success', 'Link added successfully!');
-    }
-
     // Show the form for editing an existing link
     public function edit(Link $link)
     {
@@ -54,15 +37,5 @@ class LinkController extends Controller
 
         // Redirect to the index with a success message
         return redirect()->route('admin.links.index')->with('success', 'Link updated successfully!');
-    }
-
-    // Delete a link from the database
-    public function destroy(Link $link)
-    {
-        // Delete the link
-        $link->delete();
-
-        // Redirect back to the index with a success message
-        return redirect()->route('admin.links.index')->with('success', 'Link deleted successfully!');
     }
 }

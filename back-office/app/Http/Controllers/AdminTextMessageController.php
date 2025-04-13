@@ -8,21 +8,6 @@ use Illuminate\Http\Request;
 
 class AdminTextMessageController extends Controller
 {
-    // Store a new text message
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'nullable|string',
-            'content' => 'required|string',
-        ]);
-
-        $textMessage = TextMessage::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
-
-        return redirect()->route('admin.texts.index')->with('success', 'Text saved successfully!');
-    }
 
     // Get all text messages
     public function index()
@@ -51,12 +36,5 @@ class AdminTextMessageController extends Controller
         ]);
 
         return redirect()->route('admin.texts.index')->with('success', 'Text updated successfully!');
-    }
-
-    // Delete a specific text message
-    public function destroy(TextMessage $text)
-    {
-        $text->delete();
-        return redirect()->route('admin.texts.index')->with('success', 'Text deleted successfully!');
     }
 }
