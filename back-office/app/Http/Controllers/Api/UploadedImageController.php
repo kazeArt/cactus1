@@ -9,25 +9,25 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadedImageController extends Controller
 {
-    public function store(Request $request)
-    {
-        $request->validate([
-            'image' => 'required|image|max:2048', // max 2MB
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,jfif|max:2048',
+    ]);
 
+    if ($request->hasFile('image')) {
         $file = $request->file('image');
-        $path = $file->store('images', 'public');
-
+        $path = $file->store('images', 'public'); // Save to storage/app/public/images
         $uploaded = UploadedImage::create([
-            'filename' => $path,
+            'filename' => basename($path),
             'original_name' => $file->getClientOriginalName(),
         ]);
 
-        return response()->json([
-            'message' => 'Image uploaded successfully 📸',
-            'data' => $uploaded
-        ]);
+        return response()->json(['success' => true, 'data' => $uploaded], 201);
     }
+
+    return response()->json(['success' => false, 'message' => 'No file uploaded'], 400);
+}
 
     public function index()
     {

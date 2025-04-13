@@ -119,6 +119,7 @@
                     <p>{{ $image->original_name }}</p>
                     <a href="{{ route('admin.images.edit', $image->id) }}" class="edit-link">✏️ Modifier</a>
                 </div>
+                
             @endforeach
         </div>
     </div>

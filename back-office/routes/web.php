@@ -50,4 +50,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/images', [AdminImageController::class, 'index'])->name('admin.images.index');
     Route::get('/images/{image}/edit', [AdminImageController::class, 'edit'])->name('admin.images.edit');
     Route::put('/images/{image}', [AdminImageController::class, 'update'])->name('admin.images.update');
+
 });
