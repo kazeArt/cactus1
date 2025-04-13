@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    .admin-links-wrapper {
+    .admin-images-wrapper {
         min-height: 100vh;
         background: linear-gradient(to bottom right, #991b1b, #fce7f3, #ffffff);
         padding: 3rem 1rem;
@@ -11,7 +11,7 @@
         align-items: start;
     }
 
-    .admin-links-box {
+    .admin-images-box {
         background-color: white;
         width: 100%;
         max-width: 80rem;
@@ -21,7 +21,7 @@
         box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
 
-    .admin-links-box h2 {
+    .admin-images-box h2 {
         font-size: 2rem;
         font-weight: 800;
         color: #1f2937;
@@ -29,7 +29,7 @@
         margin-bottom: 2rem;
     }
 
-    .admin-links-box h2 span {
+    .admin-images-box h2 span {
         display: block;
         font-size: 1rem;
         font-weight: 500;
@@ -37,34 +37,41 @@
         margin-top: 0.5rem;
     }
 
-    .links-container {
+    .images-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 1.5rem;
     }
 
-    .link-card {
+    .image-item {
         background-color: white;
         border: 1px solid #e5e7eb;
         border-radius: 1rem;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        padding: 1.5rem;
+        padding: 1rem;
+        text-align: center;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .link-card:hover {
+    .image-item:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
-    .link-card p {
+    .image-item img {
+        max-width: 100%;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .image-item p {
         font-size: 1rem;
         color: #374151;
         margin-bottom: 1rem;
         word-wrap: break-word;
     }
 
-    .link-card a {
+    .edit-link {
         display: inline-block;
         background-color: #1e293b;
         color: white;
@@ -75,20 +82,42 @@
         transition: background-color 0.2s ease;
     }
 
-    .link-card a:hover {
+    .edit-link:hover {
         background-color: #0f172a;
+    }
+
+    .add-button {
+        display: inline-block;
+        background-color: #be123c;
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        border-radius: 9999px;
+        text-decoration: none;
+        margin-top: 2rem;
+        transition: background-color 0.2s ease;
+    }
+
+    .add-button:hover {
+        background-color: #881337;
+    }
+
+    .text-center {
+        text-align: center;
     }
 </style>
 
-<div class="admin-links-wrapper">
-    <div class="admin-links-box">
-        <h2>🔗 Gestion des liens <span>modifiez ou gérez vos liens</span></h2>
+<div class="admin-images-wrapper">
+    <div class="admin-images-box">
+        <h2>🖼️ Gestion des images <span>Ajoutez, modifiez ou gérez vos images</span></h2>
 
-        <div class="links-container">
-            @foreach ($links as $link)
-                <div class="link-card">
-                    <p>{{ $link->url }}</p>
-                    <a href="{{ route('admin.links.edit', $link->id) }}">✏️ Modifier</a>
+        <!-- Images List -->
+        <div class="images-container">
+            @foreach ($images as $image)
+                <div class="image-item">
+                    <img src="{{ asset('storage/images/' . $image->filename) }}" alt="{{ $image->original_name }}" />
+                    <p>{{ $image->original_name }}</p>
+                    <a href="{{ route('admin.images.edit', $image->id) }}" class="edit-link">✏️ Modifier</a>
                 </div>
             @endforeach
         </div>

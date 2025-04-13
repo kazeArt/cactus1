@@ -9,19 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+  // Migration
+public function up()
 {
     Schema::table('text_messages', function (Blueprint $table) {
-        $table->string('type')->default('p');
+        // Remove 'type' column if it's already there.
+        // You don't need it anymore
     });
 }
+
 
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('text_messages');
-    }
+{
+    Schema::table('text_messages', function (Blueprint $table) {
+        $table->dropColumn('type'); // Drop the type column if you need to rollback
+    });
+}
+
 };

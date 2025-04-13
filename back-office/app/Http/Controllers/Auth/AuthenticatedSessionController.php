@@ -4,50 +4,65 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Inertia\Response;
-use App\resources\views\admin\links\index;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Show the login form.
      */
     public function create()
-{
-    return view('login'); // loads login.blade.php from resources/views/
-}
-
+    {
+        return view('login'); // resources/views/login.blade.php
+    }
 
     /**
-     * Handle an incoming authentication request.
+     * Handle the login submission.
      */
     public function store(LoginRequest $request): RedirectResponse
-{
-    $request->authenticate();
+    {
+        $credentials = $request->only('email', 'password');
 
-    $request->session()->regenerate();
+        // Check hardcoded password
+        if ($credentials['password'] !== 'password123') {
+            return redirect()->route('login')->withErrors([
+                'password' => 'Mot de passe incorrect.'
+            ])->withInput();
+        }
 
-    // Redirect to the admin index page
-    return redirect()->intended(route('admin.links.index'));}
+        // Check if email exists
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Adresse email introuvable.'
+            ])->withInput();
+        }
+
+        // Log the user in
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        // Redirect to admin panel if user is authorized
+        if ($user->is_admin) {
+            return redirect()->route('admin.panel'); // admin.panel → panel.blade.php
+        }
+
+        // Else, send to basic dashboard
+        return redirect('/dashboard');
+    }
 
     /**
-     * Destroy an authenticated session.
+     * Logout the user.
      */
-
     public function destroy(Request $request): RedirectResponse
-{
-    Auth::guard('web')->logout();
-
-    $request->session()->invalidate();
-
-    $request->session()->regenerateToken();
-
-    return redirect('/');
-}
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    }
 }

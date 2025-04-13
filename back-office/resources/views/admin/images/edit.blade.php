@@ -1,12 +1,10 @@
-@extends('layouts.app')
+<!-- resources/views/admin/images/edit.blade.php -->
 
-@section('header')
-    <h2 style="font-weight: 700; font-size: 1.5rem; color: #991b1b;">✏️ Modifier le lien</h2>
-@endsection
+@extends('layouts.app')
 
 @section('content')
 <style>
-    .edit-link-wrapper {
+    .edit-image-wrapper {
         background-color: white;
         max-width: 42rem;
         margin: 3rem auto;
@@ -16,25 +14,12 @@
         box-shadow: 0 6px 25px rgba(0, 0, 0, 0.07);
     }
 
-    .edit-link-wrapper h2 {
+    .edit-image-wrapper h1 {
         font-size: 1.75rem;
         font-weight: bold;
         color: #991b1b;
         text-align: center;
         margin-bottom: 2rem;
-    }
-
-    .error-box {
-        background-color: #fee2e2;
-        color: #b91c1c;
-        padding: 1rem;
-        border-radius: 0.75rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .error-box ul {
-        list-style-type: disc;
-        padding-left: 1.25rem;
     }
 
     .form-group {
@@ -59,6 +44,13 @@
         background-color: #fefefe;
     }
 
+    .form-group img {
+        display: block;
+        margin: 1rem auto;
+        border-radius: 0.5rem;
+        max-width: 150px;
+    }
+
     .form-actions {
         display: flex;
         justify-content: space-between;
@@ -75,7 +67,7 @@
         cursor: pointer;
         font-size: 1rem;
         transition: background-color 0.2s ease;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .form-actions button:hover {
@@ -83,48 +75,44 @@
     }
 
     .form-actions a {
-        color: #6b7280;
+        background-color: #991b1b;
+        color: white;
+        padding: 0.65rem 1.75rem;
+        font-weight: 600;
+        border-radius: 0.75rem;
         text-decoration: none;
         font-size: 1rem;
+        transition: background-color 0.2s ease;
     }
 
     .form-actions a:hover {
-        text-decoration: underline;
+        background-color: #7f1d1d;
     }
 </style>
 
-<div class="edit-link-wrapper">
-    <h2>Modifier le lien</h2>
-
-    {{-- Error Handling --}}
-    @if ($errors->any())
-        <div class="error-box">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    {{-- Edit Form --}}
-    <form action="{{ route('admin.links.update', $link->id) }}" method="POST">
+<div class="edit-image-wrapper">
+    <h1>Modifier l'image</h1>
+    <form action="{{ route('admin.images.update', $image->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <div class="form-group">
-            <label for="label">Label</label>
-            <input type="text" name="label" id="label" value="{{ $link->label }}" required>
+            <label for="original_name">Nom de l'image</label>
+            <input type="text" name="original_name" id="original_name" value="{{ $image->original_name }}" required>
         </div>
 
         <div class="form-group">
-            <label for="url">URL</label>
-            <input type="url" name="url" id="url" value="{{ $link->url }}" required>
+            <label for="image">Nouvelle image (obligatoire)</label>
+            <input type="file" name="image" id="image" accept="image/*" required>
+        </div>
+
+        <div class="form-group">
+            <img src="{{ asset('storage/images/' . $image->filename) }}" alt="{{ $image->original_name }}" class="img-thumbnail">
         </div>
 
         <div class="form-actions">
             <button type="submit">💾 Enregistrer</button>
-            <a href="{{ route('admin.links.index') }}">← Annuler</a>
+            <a href="{{ route('admin.images.index') }}">← Annuler</a>
         </div>
     </form>
 </div>

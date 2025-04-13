@@ -10,5 +10,9 @@ class TextMessage extends Model
     use HasFactory;
 
     // Add title and content to the fillable property
-    protected $fillable = ['title', 'content'];
+    protected $fillable = [
+        'content',
+        'type',
+    ];
+    
 }
